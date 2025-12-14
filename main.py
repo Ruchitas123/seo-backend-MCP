@@ -181,7 +181,7 @@ async def analyze_url(request: AnalyzeRequest):
     
     # Validate product
     if request.product not in PRODUCT_COMPETITORS:
-        print(f"[API] ❌ Invalid product: {request.product}")
+        print(f"[API]  Invalid product: {request.product}")
         raise HTTPException(
             status_code=400, 
             detail=f"Invalid product. Options: {list(PRODUCT_COMPETITORS.keys())}"
@@ -189,7 +189,7 @@ async def analyze_url(request: AnalyzeRequest):
     
     # Validate time_range
     if request.time_range not in ["week", "month", "year"]:
-        print(f"[API] ❌ Invalid time_range: {request.time_range}")
+        print(f"[API]  Invalid time_range: {request.time_range}")
         raise HTTPException(status_code=400, detail="time_range must be: week, month, or year")
     
     url = request.url
@@ -199,10 +199,10 @@ async def analyze_url(request: AnalyzeRequest):
     # Validate URL matches the selected product type
     is_valid, error_message = validate_url_for_product(url, product)
     if not is_valid:
-        print(f"[API] ❌ Invalid URL for product {product}: {url}")
+        print(f"[API]  Invalid URL for product {product}: {url}")
         raise HTTPException(status_code=400, detail=error_message)
     
-    print(f"[API] ✅ Validation passed, starting analysis...")
+    print(f"[API]  Validation passed, starting analysis...")
     
     try:
         # ===== USE SEO_CREW (All 4 Agents) =====
@@ -214,16 +214,16 @@ async def analyze_url(request: AnalyzeRequest):
         )
         
         if result.get("status") == "error":
-            print(f"[API] ❌ Analysis error: {result.get('error')}")
+            print(f"[API]  Analysis error: {result.get('error')}")
             raise HTTPException(status_code=400, detail=result.get("error", "Analysis failed"))
         
-        print(f"[API] ✅ Analysis complete!")
+        print(f"[API]  Analysis complete!")
         return JSONResponse(content={"status": "success", "data": result})
         
     except HTTPException:
         raise
     except Exception as e:
-        print(f"[API] ❌ Exception: {str(e)[:200]}")
+        print(f"[API]  Exception: {str(e)[:200]}")
         raise HTTPException(status_code=500, detail=str(e)[:500])
 
 
@@ -258,16 +258,16 @@ async def rewrite_content(request: ContentRewriteRequest):
         )
         
         if result.get("status") == "error":
-            print(f"[API] ❌ Rewrite error: {result.get('error')}")
+            print(f"[API]  Rewrite error: {result.get('error')}")
             raise HTTPException(status_code=400, detail=result.get("error", "Content rewriting failed"))
         
-        print(f"[API] ✅ Rewrite complete! {result.get('chunks_processed', 0)}/{result.get('total_chunks', 0)} chunks")
+        print(f"[API]  Rewrite complete! {result.get('chunks_processed', 0)}/{result.get('total_chunks', 0)} chunks")
         return JSONResponse(content={"status": "success", "data": result})
         
     except HTTPException:
         raise
     except Exception as e:
-        print(f"[API] ❌ Rewrite exception: {str(e)[:200]}")
+        print(f"[API]  Rewrite exception: {str(e)[:200]}")
         raise HTTPException(status_code=500, detail=f"Content rewriting failed: {str(e)[:300]}")
 
 

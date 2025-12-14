@@ -58,7 +58,7 @@ class CompetitiveAnalysisAgent:
         Returns: article_keywords, competitor_keywords, suggested_keywords, mappings
         """
         print(f"\n{'='*70}")
-        print(f"[CompetitiveAnalysisAgent] 🚀 DYNAMIC CAPABILITY-BASED ANALYSIS")
+        print(f"[CompetitiveAnalysisAgent]  DYNAMIC CAPABILITY-BASED ANALYSIS")
         print(f"{'='*70}")
         print(f"[CompetitiveAnalysisAgent] Product: {product}")
         print(f"[CompetitiveAnalysisAgent] Article URL: {article_url}")
@@ -71,7 +71,7 @@ class CompetitiveAnalysisAgent:
         print(f"[CompetitiveAnalysisAgent] Competitors to analyze: {competitor_names}")
         
         # Step 2: IDENTIFY THE CAPABILITY from the article
-        print(f"\n[CompetitiveAnalysisAgent] 🎯 Step 1: Identifying article capability...")
+        print(f"\n[CompetitiveAnalysisAgent]  Step 1: Identifying article capability...")
         capability = await self.llm_client.identify_article_capability(
             title=article_title,
             headings=article_headings or [],
@@ -79,12 +79,12 @@ class CompetitiveAnalysisAgent:
             url=article_url
         )
         
-        print(f"[CompetitiveAnalysisAgent] ✅ Capability identified: {capability.get('name')}")
+        print(f"[CompetitiveAnalysisAgent]  Capability identified: {capability.get('name')}")
         print(f"[CompetitiveAnalysisAgent]    Description: {capability.get('description')}")
         print(f"[CompetitiveAnalysisAgent]    Search terms: {capability.get('competitor_search_terms')}")
         
         # Step 3: DYNAMICALLY FIND and SCRAPE competitor capability pages
-        print(f"\n[CompetitiveAnalysisAgent] 🔍 Step 2: Finding equivalent capability on competitor sites...")
+        print(f"\n[CompetitiveAnalysisAgent]  Step 2: Finding equivalent capability on competitor sites...")
         
         competitor_content_data = await self.competitor_agent.get_competitor_content_for_capability(
             product=product,
@@ -93,7 +93,7 @@ class CompetitiveAnalysisAgent:
         )
         
         competitor_content = competitor_content_data.get("competitor_content", [])
-        print(f"\n[CompetitiveAnalysisAgent] ✅ Found capability content from {len(competitor_content)} competitors")
+        print(f"\n[CompetitiveAnalysisAgent]  Found capability content from {len(competitor_content)} competitors")
         
         for comp in competitor_content:
             content_len = len(comp.get('content', ''))
@@ -102,7 +102,7 @@ class CompetitiveAnalysisAgent:
             print(f"  - {comp.get('competitor_name')}: '{feature_name}' - {content_len} chars from {urls_count} URLs")
         
         # Step 4: Use LLM to analyze REAL competitor content and extract keywords
-        print(f"\n[CompetitiveAnalysisAgent] 🤖 Step 3: Analyzing competitor terminology...")
+        print(f"\n[CompetitiveAnalysisAgent]  Step 3: Analyzing competitor terminology...")
         keyword_data = await self.llm_client.get_competitor_keywords(
             article_keywords=article_keywords,
             product=product,
@@ -112,8 +112,8 @@ class CompetitiveAnalysisAgent:
             competitor_content=competitor_content  # Pass REAL capability-specific content
         )
         
-        print(f"\n[CompetitiveAnalysisAgent] ✅ Generated {len(keyword_data['competitor_keywords'])} competitor keywords")
-        print(f"[CompetitiveAnalysisAgent] ✅ Generated {len(keyword_data['suggested_keywords'])} suggested keywords")
+        print(f"\n[CompetitiveAnalysisAgent]  Generated {len(keyword_data['competitor_keywords'])} competitor keywords")
+        print(f"[CompetitiveAnalysisAgent]  Generated {len(keyword_data['suggested_keywords'])} suggested keywords")
         
         return {
             "status": "success",

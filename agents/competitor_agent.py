@@ -331,7 +331,7 @@ class CompetitorFetchingAgent:
         competitor_content = []
         
         print(f"\n{'='*70}")
-        print(f"[CompetitorAgent] 🔍 COMPETITOR WEBSITE SCRAPING")
+        print(f"[CompetitorAgent]  COMPETITOR WEBSITE SCRAPING")
         print(f"{'='*70}")
         print(f"[CompetitorAgent] Product: {product}")
         print(f"[CompetitorAgent] Total competitors to scrape: {len(competitors)}")
@@ -360,15 +360,15 @@ class CompetitorFetchingAgent:
                         "pages_scraped": len(pages_found),
                         "urls_scraped": [p.get("url") for p in pages_found]
                     })
-                    print(f"[CompetitorAgent]    ✅ SUCCESS: {len(content_data.get('content_extracted', ''))} chars extracted")
-                    print(f"[CompetitorAgent]    📄 Pages scraped: {len(pages_found)}")
+                    print(f"[CompetitorAgent]     SUCCESS: {len(content_data.get('content_extracted', ''))} chars extracted")
+                    print(f"[CompetitorAgent]     Pages scraped: {len(pages_found)}")
                     for page in pages_found:
                         print(f"[CompetitorAgent]       - {page.get('type', 'page')}: {page.get('url', '')}")
                 else:
-                    print(f"[CompetitorAgent]    ❌ FAILED: No content found")
+                    print(f"[CompetitorAgent]     FAILED: No content found")
                     
             except Exception as e:
-                print(f"[CompetitorAgent]    ❌ ERROR: {e}")
+                print(f"[CompetitorAgent]     ERROR: {e}")
                 continue
         
         # Validate that we got content from at least one competitor - NO FALLBACKS
@@ -376,11 +376,11 @@ class CompetitorFetchingAgent:
             raise Exception(f"Failed to scrape content from any competitor websites for product: {product}")
         
         print(f"\n{'='*70}")
-        print(f"[CompetitorAgent] 📊 SCRAPING SUMMARY")
+        print(f"[CompetitorAgent]  SCRAPING SUMMARY")
         print(f"{'='*70}")
         print(f"[CompetitorAgent] Successfully scraped: {len(competitor_content)}/{len(competitors)} competitors")
         for comp in competitor_content:
-            print(f"[CompetitorAgent]   ✓ {comp['competitor_name']}: {comp['pages_scraped']} pages, {len(comp['content'])} chars")
+            print(f"[CompetitorAgent]    {comp['competitor_name']}: {comp['pages_scraped']} pages, {len(comp['content'])} chars")
             for url in comp.get('urls_scraped', []):
                 print(f"[CompetitorAgent]      URL: {url}")
         print(f"{'='*70}\n")
@@ -404,7 +404,7 @@ class CompetitorFetchingAgent:
         Scrape specific capability-related URLs on a competitor's website.
         Tries each probable URL and extracts content.
         """
-        print(f"\n[CompetitorAgent] 🎯 Searching {competitor_name} for: {feature_name}")
+        print(f"\n[CompetitorAgent]  Searching {competitor_name} for: {feature_name}")
         
         result = {
             "competitor_name": competitor_name,
@@ -429,17 +429,17 @@ class CompetitorFetchingAgent:
                         result["urls_successful"].append(url)
                         result["content_extracted"] += f"\n\n=== FROM {url} ===\n" + content_data.get("content", "")[:4000]
                         result["headings"].extend(content_data.get("headings", []))
-                        print(f"[CompetitorAgent]    ✅ Found: {len(content_data.get('content', ''))} chars")
+                        print(f"[CompetitorAgent]     Found: {len(content_data.get('content', ''))} chars")
                     else:
                         result["urls_tried"].append({"url": url, "status": "no_content"})
-                        print(f"[CompetitorAgent]    ⚠️ Page exists but no relevant content")
+                        print(f"[CompetitorAgent]    ️ Page exists but no relevant content")
                 else:
                     result["urls_tried"].append({"url": url, "status": "empty"})
-                    print(f"[CompetitorAgent]    ❌ Empty or failed")
+                    print(f"[CompetitorAgent]     Empty or failed")
                     
             except Exception as e:
                 result["urls_tried"].append({"url": url, "status": f"error: {str(e)[:50]}"})
-                print(f"[CompetitorAgent]    ❌ Error: {str(e)[:50]}")
+                print(f"[CompetitorAgent]     Error: {str(e)[:50]}")
                 continue
         
         # If no specific URLs worked, try the base URL
@@ -477,7 +477,7 @@ class CompetitorFetchingAgent:
         search_terms = capability.get('competitor_search_terms', [])
         
         print(f"\n{'='*70}")
-        print(f"[CompetitorAgent] 🔍 DYNAMIC CAPABILITY-BASED SCRAPING")
+        print(f"[CompetitorAgent]  DYNAMIC CAPABILITY-BASED SCRAPING")
         print(f"{'='*70}")
         print(f"[CompetitorAgent] Capability: {capability_name}")
         print(f"[CompetitorAgent] Description: {capability.get('description', '')}")
@@ -501,11 +501,11 @@ class CompetitorFetchingAgent:
                 # Step 2: Dynamically discover help/documentation URLs from main page
                 discovered_help_urls = await self.discover_help_urls(comp['url'], main_html) if main_html else []
                 if discovered_help_urls:
-                    print(f"[CompetitorAgent]    🔍 Discovered {len(discovered_help_urls)} help URLs dynamically")
+                    print(f"[CompetitorAgent]     Discovered {len(discovered_help_urls)} help URLs dynamically")
                 
                 # Step 3: Use LLM to find capability-specific URLs
                 try:
-                    print(f"[CompetitorAgent]    🤖 Using LLM to find '{capability_name}' URLs...")
+                    print(f"[CompetitorAgent]     Using LLM to find '{capability_name}' URLs...")
                     competitor_capability = await llm_client.find_competitor_capability_urls(
                         capability=capability,
                         competitor_name=comp['name'],
@@ -518,7 +518,7 @@ class CompetitorFetchingAgent:
                         llm_urls = competitor_capability.get('probable_urls', [])
                         terminology_hints = competitor_capability.get('terminology_hints', [])
                         
-                        print(f"[CompetitorAgent]    📝 {comp['name']} calls it: '{likely_feature_name}'")
+                        print(f"[CompetitorAgent]     {comp['name']} calls it: '{likely_feature_name}'")
                         
                         # Combine LLM-generated URLs with dynamically discovered help URLs
                         all_urls_to_try = llm_urls + discovered_help_urls
@@ -530,7 +530,7 @@ class CompetitorFetchingAgent:
                                 seen.add(url)
                                 unique_urls.append(url)
                         
-                        print(f"[CompetitorAgent]    🔗 Total URLs to try: {len(unique_urls)}")
+                        print(f"[CompetitorAgent]     Total URLs to try: {len(unique_urls)}")
                         
                         # Try to scrape the URLs
                         scrape_result = await self.scrape_capability_specific_urls(
@@ -552,15 +552,15 @@ class CompetitorFetchingAgent:
                                 "terminology_hints": terminology_hints,
                                 "pages_scraped": len(scrape_result.get("urls_successful", []))
                             })
-                            print(f"[CompetitorAgent]    ✅ SUCCESS: {len(scrape_result.get('content_extracted', ''))} chars")
+                            print(f"[CompetitorAgent]     SUCCESS: {len(scrape_result.get('content_extracted', ''))} chars")
                             continue  # Move to next competitor
                 
                 except Exception as llm_error:
-                    print(f"[CompetitorAgent]    ⚠️ LLM error: {str(llm_error)[:50]}")
+                    print(f"[CompetitorAgent]    ️ LLM error: {str(llm_error)[:50]}")
                 
                 # Fallback: use main page content if available
                 if fallback_content and len(fallback_content) > 200:
-                    print(f"[CompetitorAgent]    📄 Using main page content as fallback")
+                    print(f"[CompetitorAgent]     Using main page content as fallback")
                     competitor_content.append({
                         "competitor_name": comp['name'],
                         "competitor_url": comp['url'],
@@ -572,17 +572,17 @@ class CompetitorFetchingAgent:
                         "terminology_hints": [],
                         "pages_scraped": 1
                     })
-                    print(f"[CompetitorAgent]    ✅ Fallback: {len(fallback_content)} chars from main page")
+                    print(f"[CompetitorAgent]     Fallback: {len(fallback_content)} chars from main page")
                 else:
-                    print(f"[CompetitorAgent]    ❌ No content found for {comp['name']}")
+                    print(f"[CompetitorAgent]     No content found for {comp['name']}")
                     
             except Exception as e:
-                print(f"[CompetitorAgent]    ❌ ERROR: {str(e)[:100]}")
+                print(f"[CompetitorAgent]     ERROR: {str(e)[:100]}")
                 continue
         
         # If dynamic capability search failed for all, fall back to main page scraping
         if len(competitor_content) == 0:
-            print(f"\n[CompetitorAgent] ⚠️ Dynamic capability search failed, falling back to main page scraping...")
+            print(f"\n[CompetitorAgent] ️ Dynamic capability search failed, falling back to main page scraping...")
             
             for comp in competitors:
                 try:
@@ -601,9 +601,9 @@ class CompetitorFetchingAgent:
                                 "terminology_hints": [],
                                 "pages_scraped": 1
                             })
-                            print(f"[CompetitorAgent]    ✅ Fallback success for {comp['name']}")
+                            print(f"[CompetitorAgent]     Fallback success for {comp['name']}")
                 except Exception as e:
-                    print(f"[CompetitorAgent]    ❌ Fallback failed for {comp['name']}: {e}")
+                    print(f"[CompetitorAgent]     Fallback failed for {comp['name']}: {e}")
                     continue
         
         # Final validation
@@ -611,13 +611,13 @@ class CompetitorFetchingAgent:
             raise Exception(f"Failed to scrape any competitor content for capability '{capability_name}'")
         
         print(f"\n{'='*70}")
-        print(f"[CompetitorAgent] 📊 CAPABILITY SCRAPING SUMMARY")
+        print(f"[CompetitorAgent]  CAPABILITY SCRAPING SUMMARY")
         print(f"{'='*70}")
         print(f"[CompetitorAgent] Capability: {capability_name}")
         print(f"[CompetitorAgent] Competitors processed: {len(competitors)}")
         print(f"[CompetitorAgent] Successfully found on: {len(competitor_content)} competitors")
         for comp in competitor_content:
-            print(f"[CompetitorAgent]   ✓ {comp['competitor_name']}: '{comp['competitor_feature_name']}'")
+            print(f"[CompetitorAgent]    {comp['competitor_name']}: '{comp['competitor_feature_name']}'")
             print(f"[CompetitorAgent]     Content: {len(comp['content'])} chars from {comp['pages_scraped']} pages")
             for url in comp.get('urls_scraped', []):
                 print(f"[CompetitorAgent]     URL: {url}")

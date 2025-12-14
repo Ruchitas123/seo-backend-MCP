@@ -165,7 +165,7 @@ Return ONLY valid JSON:
             raise Exception("Failed to identify article capability")
         
         print(f"\n{'='*70}")
-        print(f"[LLM] 🎯 CAPABILITY IDENTIFIED")
+        print(f"[LLM]  CAPABILITY IDENTIFIED")
         print(f"{'='*70}")
         print(f"[LLM] Capability: {capability.get('name')}")
         print(f"[LLM] Description: {capability.get('description')}")
@@ -460,7 +460,7 @@ Return ONLY valid JSON:
         competitor_content = competitor_content[:2]
         
         print(f"\n{'='*70}")
-        print(f"[LLM] 🤖 MAPPING ARTICLE KEYWORDS TO COMPETITOR KEYWORDS")
+        print(f"[LLM]  MAPPING ARTICLE KEYWORDS TO COMPETITOR KEYWORDS")
         print(f"{'='*70}")
         print(f"[LLM] Article keywords to map: {len(article_kw_list)} (limited to 5)")
         print(f"[LLM] Competitors with content: {len(competitor_content)} (limited to 2)")
@@ -523,10 +523,10 @@ Return ONLY valid JSON:
                                 "relevance_score": kw_relevance,
                                 "found_in": ckw.get('found_in', 'content')
                             })
-                            print(f"[LLM]   ✓ {comp_name}: '{ckw_text}' (vol: {kw_volume})")
+                            print(f"[LLM]    {comp_name}: '{ckw_text}' (vol: {kw_volume})")
                 
                 except Exception as e:
-                    print(f"[LLM]   ✗ {comp_name}: Error - {str(e)[:50]}")
+                    print(f"[LLM]    {comp_name}: Error - {str(e)[:50]}")
                     continue
             
             # Add ALL competitor keywords for this article keyword (not just best match)
@@ -572,7 +572,7 @@ Return ONLY valid JSON:
                 
         # Print mapping summary
         print(f"\n{'='*70}")
-        print(f"[LLM] 📋 KEYWORD MAPPING SUMMARY")
+        print(f"[LLM]  KEYWORD MAPPING SUMMARY")
         print(f"{'='*70}")
         for mapping in keyword_mappings:
             art_kw = mapping['article_keyword']['keyword']
@@ -641,7 +641,7 @@ Return ONLY valid JSON:
                 break
         
         print(f"\n{'='*70}")
-        print(f"[LLM] 📊 FINAL KEYWORD SUMMARY")
+        print(f"[LLM]  FINAL KEYWORD SUMMARY")
         print(f"{'='*70}")
         print(f"[LLM] Article Keywords: {len(article_keywords_clean)}")
         print(f"[LLM] Competitor Keywords: {len(competitor_keywords_all)}")
@@ -786,7 +786,7 @@ TEXT TO REWRITE:
         original_length = len(content)
         
         print(f"\n{'='*70}")
-        print(f"[ContentRewriting] 📝 FULL ARTICLE SEO REWRITING (CHUNKED)")
+        print(f"[ContentRewriting]  FULL ARTICLE SEO REWRITING (CHUNKED)")
         print(f"{'='*70}")
         print(f"[ContentRewriting] Original content: {original_length} characters")
         print(f"[ContentRewriting] Target keywords: {keywords_to_use}")
@@ -805,7 +805,7 @@ TEXT TO REWRITE:
         
         for i, chunk in enumerate(chunks):
             chunk_num = i + 1
-            print(f"\n[ContentRewriting] 🔄 Processing chunk {chunk_num}/{total_chunks}...")
+            print(f"\n[ContentRewriting]  Processing chunk {chunk_num}/{total_chunks}...")
             
             # Try up to 2 times per chunk
             max_retries = 2
@@ -824,21 +824,21 @@ TEXT TO REWRITE:
                     if rewritten and len(rewritten) > 50:
                         rewritten_chunks.append(rewritten)
                         successful += 1
-                        print(f"[ContentRewriting] ✅ Chunk {chunk_num}: {len(chunk)} → {len(rewritten)} chars")
+                        print(f"[ContentRewriting]  Chunk {chunk_num}: {len(chunk)} → {len(rewritten)} chars")
                         break
                     else:
-                        print(f"[ContentRewriting] ⚠️ Chunk {chunk_num} attempt {attempt+1}: LLM returned too little")
+                        print(f"[ContentRewriting] ️ Chunk {chunk_num} attempt {attempt+1}: LLM returned too little")
                         if attempt == max_retries - 1:
                             # Last attempt failed, use original
                             rewritten_chunks.append(f"<p>{chunk}</p>")
                     
                 except Exception as e:
                     error_msg = str(e)[:150]
-                    print(f"[ContentRewriting] ❌ Chunk {chunk_num} attempt {attempt+1} error: {error_msg}")
+                    print(f"[ContentRewriting]  Chunk {chunk_num} attempt {attempt+1} error: {error_msg}")
                     
                     if attempt == max_retries - 1:
                         # Last attempt failed, use original with basic HTML
-                        print(f"[ContentRewriting] ⚠️ Using original content for chunk {chunk_num}")
+                        print(f"[ContentRewriting] ️ Using original content for chunk {chunk_num}")
                         rewritten_chunks.append(f"<p>{chunk}</p>")
                     else:
                         # Wait a bit before retry
@@ -849,7 +849,7 @@ TEXT TO REWRITE:
         combined = "\n\n".join(rewritten_chunks)
         
         print(f"\n{'='*70}")
-        print(f"[ContentRewriting] ✅ COMPLETE!")
+        print(f"[ContentRewriting]  COMPLETE!")
         print(f"[ContentRewriting] Chunks: {successful}/{total_chunks} successfully rewritten")
         print(f"[ContentRewriting] Original: {original_length} chars")
         print(f"[ContentRewriting] Rewritten: {len(combined)} chars")
