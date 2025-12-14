@@ -1,0 +1,18 @@
+{
+  "mcp.servers": {
+    "seo-keyword-assistant": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\ruchitas\\Desktop\\Cursor Folders\\seo-backend MCP\\mcp_server.py"
+      ],
+      "env": {
+        "AZURE_OPENAI_ENDPOINT": "https://forms-azure-openai-stg.openai.azure.com",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "gpt-4o",
+        "AZURE_OPENAI_API_VERSION": "2024-02-01",
+        "AZURE_OPENAI_API_KEY": "edd28de40ec043cea781abe3b4ce9936"
+      }
+    }
+  }
+}
+
+
