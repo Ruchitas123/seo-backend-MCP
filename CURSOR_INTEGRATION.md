@@ -133,7 +133,7 @@ If you prefer to type it yourself:
 **Windows:**
 ```json
 {
-  "mcp.servers": {
+  "mcpservers": {
     "seo-keyword-assistant": {
       "command": "python",
       "args": ["C:\\Users\\YOUR_USERNAME\\Desktop\\Cursor Folders\\seo-backend MCP\\mcp_server.py"],
@@ -146,7 +146,7 @@ If you prefer to type it yourself:
 **Mac:**
 ```json
 {
-  "mcp.servers": {
+  "mcpservers": {
     "seo-keyword-assistant": {
       "command": "python3",
       "args": ["/Users/YOUR_USERNAME/projects/seo-backend MCP/mcp_server.py"],
