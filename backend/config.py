@@ -8,7 +8,7 @@ import os
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT", "https://forms-azure-openai-stg.openai.azure.com")
 AZURE_OPENAI_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4o")
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01")
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "edd28de40ec043cea781abe3b4ce9936")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "Your-Key")
 
 # LLM Provider
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "azure")
